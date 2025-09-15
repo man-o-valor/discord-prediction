@@ -31,7 +31,7 @@ node parse
 node generateModel
 ```
 
-The `parse` script parses your message folders and pushes all the messages into one array, outputing `output.json`
+The `parse` script parses your message folders and pushes all the messages into one array, outputting `output.json`
 
 The `generateModel` script might take around 10 seconds to run, and it will output `model.json`. This is the trained model, and now we just need to use it, with the next command:
 
