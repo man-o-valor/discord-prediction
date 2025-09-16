@@ -6,6 +6,8 @@ This is a program to train your own text prediction model on your discord messag
 
 Requires Node.js
 
+Requires you to request your data from discord, can be found in `User Settings -> Data & Privacy -> Request Your Data`. It is recommended to only ask for messages, as that's all this project needs to function.
+
 # Usage
 
 After recieving your messages from discord, they should be in this format:
