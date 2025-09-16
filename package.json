@@ -13,11 +13,12 @@
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "parse.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "discord.js": "^14.22.1",
     "obscenity": "^0.4.5"
   }
 }

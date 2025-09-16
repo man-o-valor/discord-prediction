@@ -12,6 +12,9 @@ const matcher = new RegExpMatcher({
   ...englishRecommendedTransformers,
 });
 
+// Custom profanity regexes (add single-word entries here)
+const customProfanity = /\bgoon\b/i;
+
 // Server ids to filter
 let servers = ["server-id"];
 // Channels and threads to filter
@@ -43,7 +46,7 @@ for (const id of ids) {
   const messages = JSON.parse(fs.readFileSync(messageFile, "utf8"));
   for (const message of messages) {
     if (message.Contents) {
-      if (matcher.hasMatch(message.Contents) && excludeProfanity) continue;
+      if ((matcher.hasMatch(message.Contents) || customProfanity.test(message.Contents)) && excludeProfanity) continue;
       if (separateData) {
         if (!output[channelData.guild.id]) output[channelData.guild.id] = []
         output[channelData.guild.id].push(message.Contents);
