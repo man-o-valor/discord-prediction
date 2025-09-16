@@ -40,6 +40,7 @@ for (const id of ids) {
 }
 
 
-fs.writeFileSync("output.json", JSON.stringify(output, null, 2), "utf8");
+fs.writeFileSync("output.json", JSON.stringify(output), "utf8");
 console.log(`${messageNum} messages written`)
+
 
