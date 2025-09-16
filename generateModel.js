@@ -39,6 +39,8 @@ function parseTokens(array, context) {
 
 for (const message of data) {
 
+    if (message.length > 500) continue;
+
     let sentence = tokenize(message);
 
     let wordMaxContext = sentence.length - 1;
@@ -50,4 +52,5 @@ for (const message of data) {
     }
 }
 
-fs.writeFileSync("model.json", JSON.stringify(model, null, 2), "utf8");
+
+fs.writeFileSync("model.json", JSON.stringify(model), "utf8");
