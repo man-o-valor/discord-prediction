@@ -1,7 +1,9 @@
 let model = require('./model.json');
 let tokenize = require('./tokenize.js');
 
-let startingPhrase = 'Hello there';
+let startingPhrase = 'hi';
+
+let serverId = "837024174865776680";
 
 let args = process.argv.slice(2);
 
@@ -10,9 +12,9 @@ if (args.length > 0) {
 }
 
 function getRandomToken(key) {
-    if (!model[key]) return null;
+    if (!model[serverId][key]) return null;
 
-    const object = model[key];
+    const object = model[serverId][key];
     const tokens = Object.keys(object);
 
    let total = 0;
@@ -41,12 +43,12 @@ function generateString(context) {
         let dynamicContext = Math.min(context, sentence.length);
         let seed = sentence.slice(-dynamicContext).join('');
 
-        while (!(model[seed]) && dynamicContext > 0) {
+        while (!(model[serverId][seed]) && dynamicContext > 0) {
             dynamicContext -= 1;
             seed = sentence.slice(-dynamicContext).join('');
         }
 
-        if (!(model[seed])) break;
+        if (!(model[serverId][seed])) break;
 
         sentence.push(getRandomToken(seed));
     }

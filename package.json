@@ -1,0 +1,23 @@
+{
+  "name": "messageai",
+  "version": "1.0.0",
+  "description": "Since you can download all your messages from discord by requesting your data, I thought it would be fun to make some scripts to train a text prediction model based on my messages. This is a wip project, doesn't have much error logging, and could break if the files aren't set up properly. You need Node.js to run this.",
+  "homepage": "https://github.com/man-o-valor/discord-prediction#readme",
+  "bugs": {
+    "url": "https://github.com/man-o-valor/discord-prediction/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/man-o-valor/discord-prediction.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "parse.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "obscenity": "^0.4.5"
+  }
+}

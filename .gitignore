@@ -1,2 +1,6 @@
 index.json
 Messages
+node_modules
+package-lock.json
+output.json
+model.json
