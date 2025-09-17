@@ -20,7 +20,6 @@ module.exports = {
     ),
   async execute(interaction) {
     const global = interaction.options.getBoolean("global") ?? false;
-    await interaction.deferReply();
     const input = interaction.options.getString("input").split(" ")[0];
     let markovresponse = await markov(
       input,
@@ -31,19 +30,19 @@ module.exports = {
     );
     if (markovresponse == input) {
       if (global) {
-        await interaction.editReply({
+        await interaction.reply({
           content:
             "I don't have any data for that phrase in this server. Try again with global:True 🤔",
           flags: MessageFlags.Ephemeral,
         });
       } else {
-        await interaction.editReply({
+        await interaction.reply({
           content: "I don't have any data for that phrase 🤔",
           flags: MessageFlags.Ephemeral,
         });
       }
     } else {
-      await interaction.editReply({
+      await interaction.reply({
         content:
           markovresponse +
           "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
