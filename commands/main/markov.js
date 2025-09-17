@@ -21,7 +21,7 @@ module.exports = {
     let defaultwords = ["i", "I", "hi", "hello", "how", "but", "any"];
     const global = interaction.options.getBoolean("global") ?? false;
     if (global) {
-      await interaction.deferReply();
+      await interaction.deferReply({flags: MessageFlags.Ephemeral});
     }
     const input =
       interaction.options.getString("input").split(" ")[0] ??
