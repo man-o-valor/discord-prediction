@@ -21,7 +21,7 @@ module.exports = {
     let defaultwords = ["i", "I", "hi", "hello", "how", "but", "any"];
     const global = interaction.options.getBoolean("global") ?? false;
     if (global) {
-      await interaction.deferReply({flags: MessageFlags.Ephemeral});
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     }
     const input =
       interaction.options.getString("input").split(" ")[0] ??
@@ -34,10 +34,17 @@ module.exports = {
       interaction.user.username + ': "' + input + '": ' + markovresponse
     );
     if (markovresponse == input) {
-      await interaction.reply({
-        content: "I don't have any data for that phrase 🤔",
-        flags: MessageFlags.Ephemeral,
-      });
+      if (global) {
+        await interaction.editReply({
+          content: "I don't have any data for that phrase 🤔",
+          flags: MessageFlags.Ephemeral,
+        });
+      } else {
+        await interaction.reply({
+          content: "I don't have any data for that phrase 🤔",
+          flags: MessageFlags.Ephemeral,
+        });
+      }
     } else {
       if (global) {
         await interaction.editReply({
