@@ -21,11 +21,16 @@ module.exports = {
   async execute(interaction) {
     const global = interaction.options.getBoolean("global") ?? false;
     const input = interaction.options.getString("input").split(" ")[0];
-    await interaction.deferReply()
-    let markovresponse = await markov(
-      input,
-      global ? "all" : interaction.guildId
-    );
+    await interaction.deferReply();
+    let markovresponse = await markov(input, global ? "all" : interaction.guildId);
+
+    if (markovresponse == null) {
+      await interaction.editReply({
+        content: "I ran into a problem with that word, try soemthing else 🤔",
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
     console.log(
       interaction.user.username + ': "' + input + '": ' + markovresponse
     );
