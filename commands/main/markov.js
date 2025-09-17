@@ -36,7 +36,7 @@ module.exports = {
     if (markovresponse == input) {
       if (global) {
         await interaction.editReply({
-          content: "I don't have any data for that phrase 🤔",
+          content: "I don't have any data for that phrase in this server. Try again with global:True 🤔",
           flags: MessageFlags.Ephemeral,
         });
       } else {
@@ -48,15 +48,15 @@ module.exports = {
     } else {
       if (global) {
         await interaction.editReply({
-          content: markovresponse,
-          flags: [MessageFlags.SuppressEmbeds, MessageFlags.Ephemeral],
+          content: markovresponse + "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+          flags: MessageFlags.SuppressEmbeds,
           allowedMentions: {
             parse: [],
           },
         });
       } else {
         await interaction.reply({
-          content: markovresponse,
+          content: markovresponse + "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
           flags: MessageFlags.SuppressEmbeds,
           allowedMentions: {
             parse: [],
