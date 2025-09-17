@@ -52,7 +52,7 @@ stringifyOutput(array)
 ```
 - `array`: Array of tokens to be formatted as a string (use `generateTokens()` as input).
 
-`generateTokens()` returns an array of tokens, and `stringifyOutput` can be used to format this array of tokens to display. For example:
+`generateTokens()` returns an array of tokens, and `stringifyOutput()` can be used to format this array of tokens to display. For example:
 ```js
 stringifyOutput(generateTokens(3, "Hello there"))
 ```
