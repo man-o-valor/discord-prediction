@@ -50,9 +50,8 @@ for (const id of ids) {
       if (separateData) {
         if (!output[channelData.guild.id]) output[channelData.guild.id] = []
         output[channelData.guild.id].push(message.Contents);
-      } else {
-        output.push(message.Contents);
       }
+      output["all"].push(message.Contents);
       messageNum++;
     }
   }

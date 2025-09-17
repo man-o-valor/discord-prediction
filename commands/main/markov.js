@@ -8,13 +8,28 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("input")
-        .setDescription("What word should MarkOV start on? CaSe SeNsItIvE, only the first word is used")
+        .setDescription(
+          "What word should MarkOV start on? CaSe SeNsItIvE, only the first word is used"
+        )
+    )
+    .addBooleanOption((option) =>
+      option
+        .setName("global")
+        .setDescription("Use data from all of Discord? Defaults to False")
     ),
   async execute(interaction) {
-    let defaultwords = ["i", "I", "hi", "hello", "how", "but", "any"]
-    const input = interaction.options.getString("input").split(" ")[0] ?? defaultwords[Math.floor(Math.random*defaultwords.length)]
-    let markovresponse = await markov(input, interaction.guildId);
-    console.log(interaction.user.username + ": \"" + input + "\": " + markovresponse)
+    let defaultwords = ["i", "I", "hi", "hello", "how", "but", "any"];
+    const global = interaction.options.getBoolean("global") ?? false;
+    const input =
+      interaction.options.getString("input").split(" ")[0] ??
+      defaultwords[Math.floor(Math.random * defaultwords.length)];
+    let markovresponse = await markov(
+      input,
+      global ? "all" : interaction.guildId
+    );
+    console.log(
+      interaction.user.username + ': "' + input + '": ' + markovresponse
+    );
     if (markovresponse == input) {
       await interaction.reply({
         content: "I don't have any data for that phrase 🤔",
