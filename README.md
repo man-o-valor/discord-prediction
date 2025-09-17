@@ -31,7 +31,7 @@ Since this is a text prediction model it needs a phrase to start with. If it can
 
 # How to Use This In A Project
 
-Okay, so you've trained your model and you want to use it's output another project. This is thankfully, quite easy with Node.js. 
+Okay, so you've trained your model and you want to use it's output in another project. This is thankfully, quite easy with Node.js. 
 
 Firstly, you need your `model.json` file (of course!). Then the only two files you need from this project is `tokenize.js` and `model.js`. `model.js` uses `tokenize.js`, hence why we need it as well.
 
