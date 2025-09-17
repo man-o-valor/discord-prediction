@@ -20,6 +20,9 @@ module.exports = {
   async execute(interaction) {
     let defaultwords = ["i", "I", "hi", "hello", "how", "but", "any"];
     const global = interaction.options.getBoolean("global") ?? false;
+    if (global) {
+      interaction.deferReply();
+    }
     const input =
       interaction.options.getString("input").split(" ")[0] ??
       defaultwords[Math.floor(Math.random * defaultwords.length)];
@@ -37,7 +40,7 @@ module.exports = {
       });
     } else {
       if (global) {
-        await interaction.reply({
+        await interaction.editReply({
           content: markovresponse,
           flags: [MessageFlags.SuppressEmbeds, MessageFlags.Ephemeral],
           allowedMentions: {
