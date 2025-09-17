@@ -11,6 +11,7 @@ module.exports = {
         .setDescription(
           "What word should MarkOV start on? CaSe SeNsItIvE, only the first word is used"
         )
+        .setRequired(true)
     )
     .addBooleanOption((option) =>
       option
@@ -18,12 +19,10 @@ module.exports = {
         .setDescription("Use data from all of Discord? Defaults to False")
     ),
   async execute(interaction) {
-    let defaultwords = ["i", "I", "hi", "hello", "how", "but", "any"];
     const global = interaction.options.getBoolean("global") ?? false;
     await interaction.deferReply();
     const input =
-      interaction.options.getString("input").split(" ")[0] ??
-      defaultwords[Math.floor(Math.random * defaultwords.length)];
+      interaction.options.getString("input").split(" ")[0]
     let markovresponse = await markov(
       input,
       global ? "all" : interaction.guildId
