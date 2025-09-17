@@ -22,13 +22,15 @@ index.json
 Run the following command to start the parsing and training process and answer the prompts to configure the paths to your `index.js` and messages folder.
 
 ```
-node main
+node setup
 ```
 
 After that, you can use your model just by running the following command:
 
 ```
-node model <phrase>
+node chat
 ```
+
+This will open a chat session with the model.
 
 Since this is a text prediction model it needs a phrase to start with. If it cannot predict anything from that input it will just output the input phrase.
