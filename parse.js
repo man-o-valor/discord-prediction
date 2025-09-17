@@ -5,7 +5,7 @@ const {
 } = require("obscenity");
 const fs = require("fs");
 
-let output = {};
+let output = {all:[]};
 let channels = require("./index.json");
 const matcher = new RegExpMatcher({
   ...englishDataset.build(),
