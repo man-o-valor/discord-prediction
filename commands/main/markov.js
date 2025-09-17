@@ -36,13 +36,23 @@ module.exports = {
         flags: MessageFlags.Ephemeral,
       });
     } else {
-      await interaction.reply({
-        content: markovresponse,
-        flags: MessageFlags.SuppressEmbeds,
-        allowedMentions: {
-          parse: [],
-        },
-      });
+      if (global) {
+        await interaction.reply({
+          content: markovresponse,
+          flags: [MessageFlags.SuppressEmbeds, MessageFlags.Ephemeral],
+          allowedMentions: {
+            parse: [],
+          },
+        });
+      } else {
+        await interaction.reply({
+          content: markovresponse,
+          flags: MessageFlags.SuppressEmbeds,
+          allowedMentions: {
+            parse: [],
+          },
+        });
+      }
     }
   },
 };
