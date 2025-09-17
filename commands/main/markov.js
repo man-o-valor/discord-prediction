@@ -21,8 +21,7 @@ module.exports = {
   async execute(interaction) {
     const global = interaction.options.getBoolean("global") ?? false;
     await interaction.deferReply();
-    const input =
-      interaction.options.getString("input").split(" ")[0]
+    const input = interaction.options.getString("input").split(" ")[0];
     let markovresponse = await markov(
       input,
       global ? "all" : interaction.guildId
@@ -38,33 +37,21 @@ module.exports = {
           flags: MessageFlags.Ephemeral,
         });
       } else {
-        await interaction.reply({
+        await interaction.editReply({
           content: "I don't have any data for that phrase 🤔",
           flags: MessageFlags.Ephemeral,
         });
       }
     } else {
-      if (global) {
-        await interaction.editReply({
-          content:
-            markovresponse +
-            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
-          flags: MessageFlags.SuppressEmbeds,
-          allowedMentions: {
-            parse: [],
-          },
-        });
-      } else {
-        await interaction.reply({
-          content:
-            markovresponse +
-            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
-          flags: MessageFlags.SuppressEmbeds,
-          allowedMentions: {
-            parse: [],
-          },
-        });
-      }
+      await interaction.editReply({
+        content:
+          markovresponse +
+          "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+        flags: MessageFlags.SuppressEmbeds,
+        allowedMentions: {
+          parse: [],
+        },
+      });
     }
   },
 };
