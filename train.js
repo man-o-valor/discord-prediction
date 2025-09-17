@@ -54,7 +54,7 @@ function train(data) {
         }
     }
 
-    console.log(`Training successful, ${totalTokens} tokens generated and trained upon.`);
+    console.log(`[+] Training successful, ${totalTokens} tokens generated and trained upon.`);
 
 
     fs.writeFileSync("model.json", JSON.stringify(model), "utf8");
@@ -62,3 +62,4 @@ function train(data) {
 }
 
 module.exports = train;
+
