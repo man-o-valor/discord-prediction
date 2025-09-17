@@ -12,7 +12,7 @@ const train = require('./train');
 
     const jsonPath = await rl.question("Input your index.json path: ");
     if (!fs.existsSync(jsonPath)) {
-        console.warn('Could not find file at specified path');
+        console.warn('[!] Could not find file at specified path');
         rl.close();
         process.exit(0);
     }
@@ -21,20 +21,20 @@ const train = require('./train');
 
     const messagesPath = await rl.question("Input your message folder path: ");
     if (!fs.existsSync(messagesPath) || !fs.lstatSync(messagesPath).isDirectory()) {
-        console.warn('Could not find folder at specified path');
+        console.warn('[!] Could not find folder at specified path');
         rl.close();
         process.exit(0);
     }
 
-    console.log("Paths verified, attempting to parse data");
-    console.log("Loading configurations from config.json");
+    console.log("[+] Paths verified, attempting to parse data");
+    console.log("[*] Loading configurations from config.json");
 
     rl.close();
 
     let config = {};
 
     if (!fs.existsSync('./config.json')) {
-        console.warn('Could not locate config.json, parsing with default values');
+        console.warn('[!] Could not locate config.json, parsing with default values');
     } else {
         config = require('./config.json');
     }
@@ -57,12 +57,12 @@ const train = require('./train');
 
     parse(config, index);
 
-    console.log("Parsing done, moving on to training.")
+    console.log("[*] Parsing done, moving on to training.")
 
     let data = [];
 
     if (!fs.existsSync('./output.json')) {
-        console.warn('Could not locate output.json, training terminated.');
+        console.warn('[!] Could not locate output.json, training terminated.');
         process.exit(0);
     } else {
         data = require('./output.json');
@@ -70,8 +70,6 @@ const train = require('./train');
 
     train(data);
 
-    console.log("Model successfully generated. Run 'node model [phrase]' to generate some text!")
+    console.log("[+] Model successfully generated. Run 'node chat' to start a chat session with the model!")
 
 })();
-
-
