@@ -20,9 +20,7 @@ module.exports = {
   async execute(interaction) {
     let defaultwords = ["i", "I", "hi", "hello", "how", "but", "any"];
     const global = interaction.options.getBoolean("global") ?? false;
-    if (global) {
-      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-    }
+    await interaction.deferReply();
     const input =
       interaction.options.getString("input").split(" ")[0] ??
       defaultwords[Math.floor(Math.random * defaultwords.length)];
@@ -36,7 +34,8 @@ module.exports = {
     if (markovresponse == input) {
       if (global) {
         await interaction.editReply({
-          content: "I don't have any data for that phrase in this server. Try again with global:True 🤔",
+          content:
+            "I don't have any data for that phrase in this server. Try again with global:True 🤔",
           flags: MessageFlags.Ephemeral,
         });
       } else {
@@ -48,7 +47,9 @@ module.exports = {
     } else {
       if (global) {
         await interaction.editReply({
-          content: markovresponse + "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+          content:
+            markovresponse +
+            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
           flags: MessageFlags.SuppressEmbeds,
           allowedMentions: {
             parse: [],
@@ -56,7 +57,9 @@ module.exports = {
         });
       } else {
         await interaction.reply({
-          content: markovresponse + "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+          content:
+            markovresponse +
+            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
           flags: MessageFlags.SuppressEmbeds,
           allowedMentions: {
             parse: [],
