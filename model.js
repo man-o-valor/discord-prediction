@@ -1,13 +1,15 @@
-let model = require('./model.json');
 let tokenize = require('./tokenize.js');
+const fs = require('fs')
 
-let startingPhrase = 'Hello there';
 
-let args = process.argv.slice(2);
-
-if (args.length > 0) {
-    startingPhrase = args[0];
+if (!fs.existsSync('./model.json')) {
+    console.warn('[!] Fatal error, could not locate a model.json file');
+    process.exit(0);
 }
+let model = require('./model.json');
+
+
+let defaultStartingPhrase = 'Hello there';
 
 function getRandomToken(key) {
     if (!model[key]) return null;
@@ -32,31 +34,60 @@ function getRandomToken(key) {
     return tokens[tokens.length - 1];
 }
 
+function checkKey(key) {
+    return model[key] ? true : false;
+}
 
 
-function generateString(context) {
+
+function generateTokens(context, startingPhrase) {
+    startingPhrase = startingPhrase || defaultStartingPhrase; 
     let sentence = tokenize(startingPhrase);
 
-    while (!sentence.join('').includes('<!end>')) {
-        let dynamicContext = Math.min(context, sentence.length);
-        let seed = sentence.slice(-dynamicContext).join('');
+    let maxTokens = 200;
+    let tokens = 0;
 
-        while (!(model[seed]) && dynamicContext > 0) {
-            dynamicContext -= 1;
+    while (!sentence.join('').includes('<!end>') && tokens < maxTokens) {
+        let dynamicContext = Math.min(context, sentence.length);
+        let match = false;
+        let seed;
+
+        while (!match && dynamicContext > 0) {
             seed = sentence.slice(-dynamicContext).join('');
+
+            const variants = [
+                seed,
+                seed.toLowerCase(),
+                seed.trim(),
+                seed.toLowerCase().trim(),
+                " " + seed,
+                " " + seed.toLowerCase()
+            ];
+
+            for (const variant of variants) {
+                if (checkKey(variant)) {
+                    seed = variant;
+                    match = true;
+                    break;
+                }
+            }
+
+            if (!match) {
+                dynamicContext--;
+            }
         }
 
-        if (!(model[seed])) break;
+        if (!match || !(model[seed])) break;
 
         sentence.push(getRandomToken(seed));
+        tokens++;
     }
 
     return sentence;
 }
 
-
-function generateOutput() {
-    return generateString(3).join('').replaceAll('<!end>', '');
+function stringifyOutput(array) {
+    return array.join('').replaceAll('<!end>', '');
 }
 
-console.log(generateOutput());
+module.exports = { generateTokens, stringifyOutput };
