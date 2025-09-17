@@ -38,7 +38,7 @@ function parse(config, channels) {
         }
     }
 
-    console.log(`Messages successfully parsed, ${messageNumber} messages found and saved`);
+    console.log(`[+] Messages successfully parsed, ${messageNumber} messages found and saved`);
 
 
     fs.writeFileSync("output.json", JSON.stringify(output), "utf8");
@@ -46,6 +46,7 @@ function parse(config, channels) {
 }
 
 module.exports = parse;
+
 
 
 
