@@ -7,7 +7,7 @@ function parse(config, channels) {
 
     let identifiers = Object.keys(channels);
 
-    console.log(`Found ${identifiers.length} channels`);
+    console.log(`[*] Found ${identifiers.length} channels`);
 
     let messageNumber = 0;
 
@@ -46,6 +46,7 @@ function parse(config, channels) {
 }
 
 module.exports = parse;
+
 
 
 
