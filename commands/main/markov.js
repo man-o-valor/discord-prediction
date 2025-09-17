@@ -21,6 +21,7 @@ module.exports = {
   async execute(interaction) {
     const global = interaction.options.getBoolean("global") ?? false;
     const input = interaction.options.getString("input").split(" ")[0];
+    await interaction.deferReply()
     let markovresponse = await markov(
       input,
       global ? "all" : interaction.guildId
@@ -30,27 +31,39 @@ module.exports = {
     );
     if (markovresponse == input) {
       if (global) {
-        await interaction.reply({
+        await interaction.editReply({
+          content: "I don't have any data for that phrase 🤔",
+          flags: MessageFlags.Ephemeral,
+        });
+      } else {
+        await interaction.editReply({
           content:
             "I don't have any data for that phrase in this server. Try again with global:True 🤔",
           flags: MessageFlags.Ephemeral,
         });
-      } else {
-        await interaction.reply({
-          content: "I don't have any data for that phrase 🤔",
-          flags: MessageFlags.Ephemeral,
-        });
       }
     } else {
-      await interaction.reply({
-        content:
-          markovresponse +
-          "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
-        flags: MessageFlags.SuppressEmbeds,
-        allowedMentions: {
-          parse: [],
-        },
-      });
+      if (global) {
+        interaction.editReply({
+          content:
+            markovresponse +
+            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+          flags: MessageFlags.SuppressEmbeds,
+          allowedMentions: {
+            parse: [],
+          },
+        });
+      } else {
+        interaction.editReply({
+          content:
+            markovresponse +
+            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+          flags: MessageFlags.SuppressEmbeds,
+          allowedMentions: {
+            parse: [],
+          },
+        });
+      }
     }
   },
 };
