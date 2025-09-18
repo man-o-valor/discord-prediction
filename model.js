@@ -41,18 +41,22 @@ function checkKey(key) {
 
 
 function generateTokens(context, startingPhrase) {
-    startingPhrase = startingPhrase || defaultStartingPhrase; 
+    startingPhrase = startingPhrase || defaultStartingPhrase;
     let sentence = tokenize(startingPhrase);
 
     let maxTokens = 200;
     let tokens = 0;
+    const TIMEOUT_MS = 5000;
+    const startTime = Date.now();
 
     while (!sentence.join('').includes('<!end>') && tokens < maxTokens) {
+        if (Date.now() - startTime > TIMEOUT_MS) return null;
         let dynamicContext = Math.min(context, sentence.length);
         let match = false;
         let seed;
 
         while (!match && dynamicContext > 0) {
+            if (Date.now() - startTime > TIMEOUT_MS) return null;
             seed = sentence.slice(-dynamicContext).join('');
 
             const variants = [
