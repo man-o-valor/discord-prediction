@@ -29,9 +29,8 @@ function tokenize(text) {
         let currentChar = text[i] ?? null;
         let nextChar = text[i + 1] ?? null;
         let nextNextChar = text[i + 2] ?? null;
+
         let sentenceEnd = false;
-
-
         let continueToken = true;
 
         if (currentChar === ':') { inEmoji = true }

@@ -1,6 +1,12 @@
 # Train-Your-Own-Prediction-Model
 
-Since you can download all your messages from discord by requesting your data, I thought it would be fun to make some scripts to train a text prediction model based on my messages. This is a wip project, doesn't have much error logging, and could break if the files aren't set up properly. You need Node.js to run this.
+This is a program to train your own text prediction model on your discord messages. 
+
+# Prerequisites
+
+Requires Node.js
+
+Requires you to request your data from discord, can be found in `User Settings -> Data & Privacy -> Request Your Data`. It is recommended to only ask for messages, as that's all this project needs to function.
 
 # Usage
 
@@ -11,33 +17,43 @@ index.json
 /c345357567882
 /c2342341253467
 ```
-
-Download the scripts into a new folder, and copy over this message folder into the project folder. Note that the messages need to be in their OWN sub-folder of the project folder. This sub-folder NEEDS to be named `Messages`. Now move the `index.json` file out of the sub-folder into the main folder, but leave the other channel folders (e.g `c2342341253467`) in the subfolder. Your file tree should look like this:
-
+Run the following command to start the parsing and training process and answer the prompts to configure the paths to your `index.js` and messages folder.
 ```
-/Messages
-index.json
-generateModel.js
-parse.js
-random.js
-tokenize.js
+node setup
 ```
-
-Now run these commands in this order, waiting for each to finish before moving on.
-
+After that, you can use your model just by running the following command:
 ```
-node parse
-
-node generateModel
+node chat
 ```
+This will open a chat session with the model.
 
-The `parse` script parses your message folders and pushes all the messages into one array, outputting `output.json`
+Since this is a text prediction model it needs a phrase to start with. If it cannot predict anything from that input it will just output the input phrase.
 
-The `generateModel` script might take around 10 seconds to run, and it will output `model.json`. This is the trained model, and now we just need to use it, with the next command:
+# How to Use This In A Project
 
+Okay, so you've trained your model and you want to use it's output in another project. This is thankfully, quite easy with Node.js. 
+
+Firstly, you need your `model.json` file (of course!). Then the only two files you need from this project is `tokenize.js` and `model.js`. `model.js` uses `tokenize.js`, hence why we need it as well.
+
+Finally, import the following functions from `model.js`:
+
+```js
+const { generateTokens, stringifyOutput } = require('./model');
 ```
-node random <startingPhrase>
+These functions require some parms:
+```js
+generateTokens(context, startingPhrase)
 ```
+- `context`: Number of tokens to look back upon in order to predict the next word. 
 
-The `startingPhrase` argument is the input text for the model to start it's predictions upon. It will generate until it meets the end of a sentence, or if it can't find predictions for that phrase.
+- `startingPhrase`: Phrase to build upon.
+```js
+stringifyOutput(array)
+```
+- `array`: Array of tokens to be formatted as a string (use `generateTokens()` as input).
+
+`generateTokens()` returns an array of tokens, and `stringifyOutput()` can be used to format this array of tokens to display. For example:
+```js
+stringifyOutput(generateTokens(3, "Hello there"))
+```
 
