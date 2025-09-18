@@ -18,11 +18,11 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("word")
-        .setDescription("What word are you wondering about?")
+        .setDescription("What word are you wondering about? CaSe SeNsItIvE")
         .setRequired(true)
     ),
   async execute(interaction) {
-    const input = interaction.options.getString("word").split(" ")[0].trim().toLowerCase();
+    const input = interaction.options.getString("word").split(" ")[0].trim();
     if (matcher.hasMatch(input)) {
       await interaction.reply({
         content: "ayo what are u gettin at",
@@ -30,13 +30,32 @@ module.exports = {
       });
     } else {
       await interaction.deferReply();
+      // Strict search
       const found = output.some(
-        (str) => typeof str === "string" && str.toLowerCase().includes(input)
+        (str) => typeof str === "string" && str.includes(input)
       );
+
+      let foundLeniantFormat = null;
+      if (!found) {
+        for (const str of output) {
+          if (typeof str === "string" && str.toLowerCase().includes(input.toLowerCase())) {
+            foundLeniantFormat = str;
+            break;
+          }
+        }
+      }
+
+      let replyContent;
+      if (found) {
+        replyContent = `✅ Mov has said "${input}" before`;
+      } else if (foundLeniantFormat) {
+        replyContent = `✅ Mov has said something similar: "${foundLeniantFormat}"`;
+      } else {
+        replyContent = `❌ Mov has never said "${input}" before`;
+      }
+
       await interaction.editReply({
-        content: found
-          ? `✅ Mov has said "${input}" before`
-          : `❌ Mov has never said "${input}" before`,
+        content: replyContent,
         flags: MessageFlags.SuppressEmbeds,
         allowedMentions: {
           parse: [],
