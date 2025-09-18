@@ -30,28 +30,32 @@ module.exports = {
       });
     } else {
       await interaction.deferReply();
-      // Strict search
       const found = output.some(
         (str) => typeof str === "string" && str.includes(input)
       );
 
-      let foundLeniantFormat = null;
+      let foundLeniantSubstring = null;
       if (!found) {
         for (const str of output) {
-          if (typeof str === "string" && str.toLowerCase().includes(input.toLowerCase())) {
-            foundLeniantFormat = str;
-            break;
+          if (typeof str === "string") {
+            const lowerStr = str.toLowerCase();
+            const lowerInput = input.toLowerCase();
+            const idx = lowerStr.indexOf(lowerInput);
+            if (idx !== -1) {
+              foundLeniantSubstring = str.substr(idx, input.length);
+              break;
+            }
           }
         }
       }
 
       let replyContent;
       if (found) {
-        replyContent = `✅ Mov has said "${input}" before`;
-      } else if (foundLeniantFormat) {
-        replyContent = `✅ Mov has said something similar: "${foundLeniantFormat}"`;
+        replyContent = `✅ Mov has said \"${input}\" before`;
+      } else if (foundLeniantSubstring) {
+        replyContent = `✅ Mov has said something similar: \"${foundLeniantSubstring}\"`;
       } else {
-        replyContent = `❌ Mov has never said "${input}" before`;
+        replyContent = `❌ Mov has never said \"${input}\" before`;
       }
 
       await interaction.editReply({
