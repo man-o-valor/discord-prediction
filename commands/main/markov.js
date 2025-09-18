@@ -14,13 +14,13 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    const input = interaction.options.getString("word").split(" ")[0];
+    const input = interaction.options.getString("word").split(" ")[0].trim();
     await interaction.deferReply();
     let markovresponse = await stringifyOutput(generateTokens(3, input));
 
     if (markovresponse == null) {
       await interaction.editReply({
-        content: "I ran into a problem with that word, try soemthing else 🤔",
+        content: "I ran into a problem with that word, try something else 🤔",
         flags: MessageFlags.Ephemeral,
       });
       return;
