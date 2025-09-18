@@ -16,7 +16,7 @@ module.exports = {
   async execute(interaction) {
     const input = interaction.options.getString("word").split(" ")[0];
     await interaction.deferReply();
-    let markovresponse = await stringifyOutput(generateTokens(3, query));
+    let markovresponse = await stringifyOutput(generateTokens(3, input));
 
     if (markovresponse == null) {
       await interaction.editReply({
