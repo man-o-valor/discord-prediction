@@ -23,13 +23,13 @@ module.exports = {
     await interaction.deferReply();
 
     const matcher = new RegExpMatcher({
-      ...englishDataset.build({ extraWordList: ["goon","gooner","gooning"] }),
+      ...englishDataset.build(),
       ...englishRecommendedTransformers,
     });
 
     let markovresponse = await stringifyOutput(generateTokens(3, input));
 
-    if (matcher.hasMatch(markovresponse)) {
+    if (matcher.hasMatch(markovresponse) || /\bgoon\b/i.test(markovresponse)) {
       await interaction.editReply({
         content: "Check your language and try again",
         flags: MessageFlags.Ephemeral,

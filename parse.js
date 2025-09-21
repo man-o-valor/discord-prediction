@@ -7,7 +7,7 @@ const {
 } = require("obscenity");
 
 const matcher = new RegExpMatcher({
-  ...englishDataset.build({ extraWordList: ["goon", "gooner", "gooning"] }),
+  ...englishDataset.build(),
   ...englishRecommendedTransformers,
 });
 
@@ -55,7 +55,11 @@ function parse(config, channels) {
     for (const message of messages) {
       if (
         message.Contents &&
-        !(matcher.hasMatch(message.Contents) && config.filterProfanity)
+        !(
+          (matcher.hasMatch(message.Contents) ||
+            /\bgoon\b/i.test(markovresponse)) &&
+          config.filterProfanity
+        )
       ) {
         output.push(message.Contents);
         messageNumber++;
