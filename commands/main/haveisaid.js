@@ -22,7 +22,7 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    const input = interaction.options.getString("word").split(" ")[0].trim();
+    const input = interaction.options.getString("word");
     if (matcher.hasMatch(input)) {
       await interaction.reply({
         content: "ayo what are u gettin at",

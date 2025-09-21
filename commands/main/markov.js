@@ -14,40 +14,56 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    const input = interaction.options.getString("word").split(" ")[0].trim();
+    const input = interaction.options.getString("word");
     await interaction.deferReply();
+
+    const matcher = new RegExpMatcher({
+      ...englishDataset.build({ extraWordList: ["goon"] }),
+      ...englishRecommendedTransformers,
+    });
+
     let markovresponse = await stringifyOutput(generateTokens(3, input));
 
-    if (markovresponse == null) {
-      await interaction.editReply({
-        content: "I ran into a problem with that word, try something else 🤔",
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
-    console.log(
-      interaction.user.username + ': "' + input + '": ' + markovresponse
-    );
-    if (markovresponse == input) {
-      await interaction.editReply({
-        content: "I don't have any data for that phrase 🤔",
-        flags: MessageFlags.Ephemeral,
-      });
-    } else {
-      try {
+    if (matcher.hasMatch(markovresponse)) {
+      if (markovresponse == null) {
         await interaction.editReply({
-          content:
-            markovresponse +
-            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
-          flags: MessageFlags.SuppressEmbeds,
-          allowedMentions: {
-            parse: [],
-          },
+          content: "Check your posture and try again",
+          flags: MessageFlags.Ephemeral,
         });
-      } catch (e) {
-        await interaction.editReply(
-          "The message MarkOV wrote for that prompt was blocked by automod 💀"
-        );
+        return;
+      }
+    } else {
+      if (markovresponse == null) {
+        await interaction.editReply({
+          content: "I ran into a problem with that word, try something else 🤔",
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
+      console.log(
+        interaction.user.username + ': "' + input + '": ' + markovresponse
+      );
+      if (markovresponse == input) {
+        await interaction.editReply({
+          content: "I don't have any data for that phrase 🤔",
+          flags: MessageFlags.Ephemeral,
+        });
+      } else {
+        try {
+          await interaction.editReply({
+            content:
+              markovresponse +
+              "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+            flags: MessageFlags.SuppressEmbeds,
+            allowedMentions: {
+              parse: [],
+            },
+          });
+        } catch (e) {
+          await interaction.editReply(
+            "The message MarkOV wrote for that prompt was blocked by automod 💀"
+          );
+        }
       }
     }
   },
