@@ -31,7 +31,7 @@ module.exports = {
 
     if (matcher.hasMatch(markovresponse)) {
       await interaction.editReply({
-        content: "Check your posture and try again",
+        content: "Check your language and try again",
         flags: MessageFlags.Ephemeral,
       });
       return;
