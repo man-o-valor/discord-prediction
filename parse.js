@@ -7,7 +7,7 @@ const {
 } = require("obscenity");
 
 const matcher = new RegExpMatcher({
-  ...englishDataset.build(),
+  ...englishDataset.build({extraWordList: ['goon']}),
   ...englishRecommendedTransformers,
 });
 
