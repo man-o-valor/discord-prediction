@@ -23,7 +23,7 @@ module.exports = {
     await interaction.deferReply();
 
     const matcher = new RegExpMatcher({
-      ...englishDataset.build({ extraWordList: ["goon"] }),
+      ...englishDataset.build({ extraWordList: ["goon","gooner","gooning"] }),
       ...englishRecommendedTransformers,
     });
 

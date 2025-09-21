@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 const {
   RegExpMatcher,
   englishRecommendedTransformers,
@@ -7,57 +7,67 @@ const {
 } = require("obscenity");
 
 const matcher = new RegExpMatcher({
-  ...englishDataset.build({extraWordList: ['goon']}),
+  ...englishDataset.build({ extraWordList: ["goon", "gooner", "gooning"] }),
   ...englishRecommendedTransformers,
 });
 
 function parse(config, channels) {
+  let output = [];
+  let identifiers = Object.keys(channels);
 
-    let output = [];
-    let identifiers = Object.keys(channels);
+  console.log(`[*] Found ${identifiers.length} channels`);
 
-    console.log(`[*] Found ${identifiers.length} channels`);
+  let messageNumber = 0;
 
-    let messageNumber = 0;
+  for (const id of identifiers) {
+    const channelFile = path.join(
+      config.messagesPath,
+      `c${id}`,
+      "channel.json"
+    );
 
-    for (const id of identifiers) {
+    if (!fs.existsSync(channelFile)) continue;
 
-        const channelFile = path.join(config.messagesPath, `c${id}`, 'channel.json');
+    const channelData = JSON.parse(fs.readFileSync(channelFile, "utf8"));
 
-        if (!fs.existsSync(channelFile)) continue;
+    if (config.filteredChannels.includes(id)) continue;
+    if (config.filteredThreads.includes(id)) continue;
+    if (
+      (channelData.type === "GROUP_DM" && config.filterGroupChats) ||
+      (channelData.type === "DM" && config.filterDms)
+    )
+      continue;
+    if (
+      !channelData.guild?.id ||
+      config.filteredServers.includes(channelData.guild.id)
+    )
+      continue;
 
-        const channelData = JSON.parse(fs.readFileSync(channelFile, "utf8"));
+    const messageFile = path.join(
+      config.messagesPath,
+      `c${id}`,
+      "messages.json"
+    );
+    if (!fs.existsSync(messageFile)) continue;
 
-        if (config.filteredChannels.includes(id)) continue;
-        if (config.filteredThreads.includes(id)) continue;
-        if ((channelData.type === 'GROUP_DM' && config.filterGroupChats) ||
-            (channelData.type === 'DM' && config.filterDms)) continue;
-        if (!channelData.guild?.id || config.filteredServers.includes(channelData.guild.id)) continue;
+    const messages = JSON.parse(fs.readFileSync(messageFile, "utf8"));
 
-        const messageFile = path.join(config.messagesPath, `c${id}`, 'messages.json');
-        if (!fs.existsSync(messageFile)) continue;
-
-        const messages = JSON.parse(fs.readFileSync(messageFile, "utf8"));
-
-        for (const message of messages) {
-            if (message.Contents && !(((matcher.hasMatch(message.Contents))) && config.filterProfanity)) {
-                output.push(message.Contents);
-                messageNumber++;
-            }
-        }
+    for (const message of messages) {
+      if (
+        message.Contents &&
+        !(matcher.hasMatch(message.Contents) && config.filterProfanity)
+      ) {
+        output.push(message.Contents);
+        messageNumber++;
+      }
     }
+  }
 
-    console.log(`[+] Messages successfully parsed, ${messageNumber} messages found and saved`);
+  console.log(
+    `[+] Messages successfully parsed, ${messageNumber} messages found and saved`
+  );
 
-
-    fs.writeFileSync("output.json", JSON.stringify(output), "utf8");
-
+  fs.writeFileSync("output.json", JSON.stringify(output), "utf8");
 }
 
 module.exports = parse;
-
-
-
-
-
-
