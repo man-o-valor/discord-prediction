@@ -1,4 +1,9 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const {
+  RegExpMatcher,
+  englishRecommendedTransformers,
+  englishDataset,
+} = require("obscenity");
 const { generateTokens, stringifyOutput } = require("../../model");
 
 module.exports = {
