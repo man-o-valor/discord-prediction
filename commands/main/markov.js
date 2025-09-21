@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
-const { generateTokens, stringifyOutput } = require('../../model');
+const { generateTokens, stringifyOutput } = require("../../model");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,15 +34,21 @@ module.exports = {
         flags: MessageFlags.Ephemeral,
       });
     } else {
-      interaction.editReply({
-        content:
-          markovresponse +
-          "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
-        flags: MessageFlags.SuppressEmbeds,
-        allowedMentions: {
-          parse: [],
-        },
-      });
+      try {
+        await interaction.editReply({
+          content:
+            markovresponse +
+            "\n-# text produced by MarkOV does not represent the views or messages of man-o-valor",
+          flags: MessageFlags.SuppressEmbeds,
+          allowedMentions: {
+            parse: [],
+          },
+        });
+      } catch (e) {
+        await interaction.editReply(
+          "The message MarkOV wrote for that prompt was blocked by automod 💀"
+        );
+      }
     }
   },
 };
