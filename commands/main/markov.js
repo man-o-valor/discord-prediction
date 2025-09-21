@@ -30,13 +30,11 @@ module.exports = {
     let markovresponse = await stringifyOutput(generateTokens(3, input));
 
     if (matcher.hasMatch(markovresponse)) {
-      if (markovresponse == null) {
-        await interaction.editReply({
-          content: "Check your posture and try again",
-          flags: MessageFlags.Ephemeral,
-        });
-        return;
-      }
+      await interaction.editReply({
+        content: "Check your posture and try again",
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
     } else {
       if (markovresponse == null) {
         await interaction.editReply({
