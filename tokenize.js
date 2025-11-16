@@ -1,3 +1,9 @@
+/**
+ * Tokenize an input string and return an array of the tokens
+ * @param {string} text 
+ * @returns {array}
+ */
+
 function tokenize(text) {
 
     let punctuation = [".", "-", "!", "?", ":", ","]
@@ -58,5 +64,6 @@ function tokenize(text) {
     }
     return output;
 }
+
 
 module.exports = tokenize;
