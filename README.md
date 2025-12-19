@@ -1,6 +1,6 @@
 # Train-Your-Own-Prediction-Model
 
-This is a program to train your own text prediction model on your discord messages. 
+This is a Node.js implementation of a sliding window n-gram [Markov model](https://en.wikipedia.org/wiki/Markov_model). It's specifically built to parse the discord data package formatting, but could be swiftly adapted to other datasets.
 
 # Prerequisites
 
@@ -13,9 +13,10 @@ Requires you to request your data from discord, can be found in `User Settings -
 After recieving your messages from discord, they should be in this format:
 ```
 index.json
-/c34546745847
-/c345357567882
-/c2342341253467
+./c34546745847
+./c345357567882
+./c2342341253467
+...
 ```
 Run the following command to start the parsing and training process and answer the prompts to configure the paths to your `index.js` and messages folder.
 ```
