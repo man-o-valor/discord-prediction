@@ -57,7 +57,7 @@ function parse(config, channels) {
         message.Contents &&
         !(
           (matcher.hasMatch(message.Contents) ||
-            /\bgoon\b/i.test(markovresponse)) &&
+            /\bgoon\b/i.test(message.Contents)) &&
           config.filterProfanity
         )
       ) {
