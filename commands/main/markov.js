@@ -14,7 +14,7 @@ module.exports = {
       option
         .setName("word")
         .setDescription(
-          "What word should MarkOV start on? CaSe SeNsItIvE, only the first word is used"
+          "What word should MarkOV start on?"
         )
         .setRequired(true)
     ),
